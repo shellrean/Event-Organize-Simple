@@ -1,10 +1,14 @@
 package com.shellrean.event.organize.domain.model;
 
+import com.fasterxml.jackson.annotation.JsonBackReference;
+import lombok.AllArgsConstructor;
 import lombok.Data;
+import lombok.NoArgsConstructor;
 
 import javax.persistence.*;
 import java.time.LocalDateTime;
 import java.util.ArrayList;
+import java.util.Date;
 import java.util.List;
 
 @Entity
@@ -12,6 +16,8 @@ import java.util.List;
         name = "events"
 )
 @Data
+@NoArgsConstructor
+@AllArgsConstructor
 public class Event {
 
     @Id
@@ -39,16 +45,25 @@ public class Event {
     )
     private String body;
 
+    @Column(
+            nullable = false
+    )
     private String location;
 
+    @Column(
+            nullable = false
+    )
     private String speaker;
 
+    @Column(
+            nullable = false
+    )
     private Integer seatTotal;
 
     @Column(
-            columnDefinition = "TIMESTAMP WITHOUT TIME ZONE"
+            nullable = false
     )
-    private LocalDateTime eventDate;
+    private Date eventDate;
 
     @ManyToOne
     @JoinColumn(
@@ -64,4 +79,20 @@ public class Event {
             mappedBy = "event"
     )
     private List<Enrolment> enrolments = new ArrayList<>();
+
+    public Event(String title,
+                 String body,
+                 String location,
+                 String speaker,
+                 Integer seatTotal,
+                 Date eventDate,
+                 Organizer organizer) {
+        this.title = title;
+        this.body = body;
+        this.location = location;
+        this.speaker = speaker;
+        this.seatTotal = seatTotal;
+        this.eventDate = eventDate;
+        this.organizer = organizer;
+    }
 }

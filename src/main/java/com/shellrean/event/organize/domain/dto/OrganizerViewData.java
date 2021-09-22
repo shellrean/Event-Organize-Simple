@@ -1,7 +1,5 @@
 package com.shellrean.event.organize.domain.dto;
 
-import com.fasterxml.jackson.annotation.JsonProperty;
-import com.shellrean.event.organize.domain.model.Event;
 import lombok.Data;
 
 import java.util.List;
@@ -16,5 +14,5 @@ public class OrganizerViewData {
 
     private String address;
 
-    private List<Event> events;
+    private List<EventViewListData> events;
 }

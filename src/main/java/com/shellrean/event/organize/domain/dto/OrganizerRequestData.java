@@ -2,6 +2,7 @@ package com.shellrean.event.organize.domain.dto;
 
 import lombok.Data;
 
+import javax.validation.constraints.Email;
 import javax.validation.constraints.NotBlank;
 
 @Data
@@ -12,6 +13,7 @@ public class OrganizerRequestData {
     private String name;
 
     @NotBlank(message = "email is mandatory")
+    @Email
     private String email;
 
     @NotBlank(message = "phoneNumber is mandatory")

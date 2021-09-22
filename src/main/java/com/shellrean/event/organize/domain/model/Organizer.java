@@ -1,5 +1,6 @@
 package com.shellrean.event.organize.domain.model;
 
+import com.fasterxml.jackson.annotation.JsonBackReference;
 import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
@@ -65,6 +66,7 @@ public class Organizer {
             cascade = {CascadeType.PERSIST, CascadeType.REMOVE},
             fetch = FetchType.LAZY
     )
+    @JsonBackReference
     private List<Event> events = new ArrayList<>();
 
     public Organizer(String name,

@@ -32,10 +32,6 @@ public class OrganizerController {
     public ResponseEntity<List<OrganizerViewListData>> index() {
         List<Organizer> organizers = organizerService.getAllOrganizers();
 
-        if (organizers.isEmpty()) {
-            return new ResponseEntity<>(HttpStatus.NOT_FOUND);
-        }
-
         List<OrganizerViewListData> organizersResult = organizers.stream()
                 .map((organizer) -> modelMapper.map(organizer, OrganizerViewListData.class))
                 .collect(Collectors.toList());
@@ -53,17 +49,13 @@ public class OrganizerController {
 
     @PostMapping
     public ResponseEntity<? extends Object> store(@RequestBody @Valid OrganizerRequestData organizerRequest) {
-        try {
-            Organizer organizer = organizerService.createNewOrganizer(modelMapper.map(organizerRequest, Organizer.class));
-            OrganizerViewData organizerViewData = modelMapper.map(organizer, OrganizerViewData.class);
+        Organizer organizer = organizerService.createNewOrganizer(modelMapper.map(organizerRequest, Organizer.class));
+        OrganizerViewData organizerViewData = modelMapper.map(organizer, OrganizerViewData.class);
 
-            return new ResponseEntity<OrganizerViewData>(
-                    organizerViewData,
-                    HttpStatus.CREATED
-            );
-        } catch (IllegalStateException e) {
-            return new ResponseEntity<String>(e.getMessage(), HttpStatus.BAD_REQUEST);
-        }
+        return new ResponseEntity<OrganizerViewData>(
+                organizerViewData,
+                HttpStatus.CREATED
+        );
     }
 
     @DeleteMapping("{organizerId}")

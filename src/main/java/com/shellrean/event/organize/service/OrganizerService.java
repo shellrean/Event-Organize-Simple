@@ -1,8 +1,10 @@
 package com.shellrean.event.organize.service;
 
 import com.shellrean.event.organize.domain.model.Organizer;
+import com.shellrean.event.organize.exception.EmailTakenException;
 import com.shellrean.event.organize.exception.ResourceNotFoundException;
 import com.shellrean.event.organize.repository.OrganizerRepository;
+import org.aspectj.weaver.ast.Or;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
@@ -21,7 +23,12 @@ public class OrganizerService {
     }
 
     public List<Organizer> getAllOrganizers() {
-        return organizerRepository.findAll();
+        List<Organizer> organizers = organizerRepository.findAll();
+        if (organizers.isEmpty()) {
+            throw new ResourceNotFoundException("there is no data found");
+        }
+
+        return organizers;
     }
 
     public Organizer findOrganizerById(Long organizerId) {
@@ -32,7 +39,7 @@ public class OrganizerService {
     public Organizer createNewOrganizer(Organizer organizer) {
         boolean existEmail = organizerRepository.existsByEmail(organizer.getEmail());
         if (existEmail) {
-            throw new IllegalStateException(String.format("email already taken"));
+            throw new EmailTakenException(String.format("email %s already taken", organizer.getEmail()));
         }
         return organizerRepository.save(organizer);
     }
