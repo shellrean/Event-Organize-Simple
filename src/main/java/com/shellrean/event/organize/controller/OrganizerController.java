@@ -1,49 +1,68 @@
 package com.shellrean.event.organize.controller;
 
+import com.shellrean.event.organize.domain.dto.OrganizerRequestData;
+import com.shellrean.event.organize.domain.dto.OrganizerViewData;
+import com.shellrean.event.organize.domain.dto.OrganizerViewListData;
 import com.shellrean.event.organize.domain.model.Organizer;
 import com.shellrean.event.organize.exception.ResourceNotFoundException;
 import com.shellrean.event.organize.service.OrganizerService;
+import org.modelmapper.ModelMapper;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
+import javax.validation.Valid;
 import java.util.List;
+import java.util.stream.Collectors;
 
 @RestController
 @RequestMapping("api/v1/organizers")
 public class OrganizerController {
     private final OrganizerService organizerService;
+    private final ModelMapper modelMapper;
 
     @Autowired
-    public OrganizerController(OrganizerService organizerService) {
+    public OrganizerController(OrganizerService organizerService, ModelMapper modelMapper) {
         this.organizerService = organizerService;
+        this.modelMapper = modelMapper;
     }
 
     @GetMapping
-    public ResponseEntity<List<Organizer>> index() {
+    public ResponseEntity<List<OrganizerViewListData>> index() {
         List<Organizer> organizers = organizerService.getAllOrganizers();
 
         if (organizers.isEmpty()) {
             return new ResponseEntity<>(HttpStatus.NOT_FOUND);
         }
 
-        return ResponseEntity.ok(organizers);
+        List<OrganizerViewListData> organizersResult = organizers.stream()
+                .map((organizer) -> modelMapper.map(organizer, OrganizerViewListData.class))
+                .collect(Collectors.toList());
+
+        return ResponseEntity.ok(organizersResult);
     }
 
     @GetMapping("{organizerId}")
-    public ResponseEntity<Organizer> show(@PathVariable("organizerId") Long organizerId) {
-        return ResponseEntity.ok(organizerService.findOrganizerById(organizerId));
+    public ResponseEntity<OrganizerViewData> show(@PathVariable("organizerId") Long organizerId) {
+        Organizer organizer = organizerService.findOrganizerById(organizerId);
+        OrganizerViewData organizerViewData = modelMapper.map(organizer, OrganizerViewData.class);
+
+        return ResponseEntity.ok(organizerViewData);
     }
 
     @PostMapping
-    public ResponseEntity<? extends Object> store(@RequestBody Organizer organizer) {
+    public ResponseEntity<? extends Object> store(@RequestBody @Valid OrganizerRequestData organizerRequest) {
         try {
-            return new ResponseEntity<Organizer>(organizerService.createNewOrganizer(organizer), HttpStatus.CREATED);
+            Organizer organizer = organizerService.createNewOrganizer(modelMapper.map(organizerRequest, Organizer.class));
+            OrganizerViewData organizerViewData = modelMapper.map(organizer, OrganizerViewData.class);
+
+            return new ResponseEntity<OrganizerViewData>(
+                    organizerViewData,
+                    HttpStatus.CREATED
+            );
         } catch (IllegalStateException e) {
             return new ResponseEntity<String>(e.getMessage(), HttpStatus.BAD_REQUEST);
-        } catch (Exception e) {
-            return new ResponseEntity<String>(e.getMessage(), HttpStatus.INTERNAL_SERVER_ERROR);
         }
     }
 
