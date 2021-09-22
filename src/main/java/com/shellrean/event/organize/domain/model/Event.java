@@ -43,6 +43,8 @@ public class Event {
 
     private String speaker;
 
+    private Integer seatTotal;
+
     @Column(
             columnDefinition = "TIMESTAMP WITHOUT TIME ZONE"
     )
@@ -50,8 +52,11 @@ public class Event {
 
     @ManyToOne
     @JoinColumn(
-            name = "event_id",
-            referencedColumnName = "id"
+            name = "organizer_id",
+            referencedColumnName = "id",
+            foreignKey = @ForeignKey(
+                    name = "event_organizer_id_fk"
+            )
     )
     private Organizer organizer;
 

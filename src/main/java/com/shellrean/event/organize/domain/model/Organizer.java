@@ -1,6 +1,8 @@
 package com.shellrean.event.organize.domain.model;
 
+import lombok.AllArgsConstructor;
 import lombok.Data;
+import lombok.NoArgsConstructor;
 
 import javax.persistence.*;
 import java.util.ArrayList;
@@ -17,6 +19,8 @@ import java.util.List;
         }
 )
 @Data
+@AllArgsConstructor
+@NoArgsConstructor
 public class Organizer {
 
     @Id
@@ -62,4 +66,14 @@ public class Organizer {
             fetch = FetchType.LAZY
     )
     private List<Event> events = new ArrayList<>();
+
+    public Organizer(String name,
+                     String email,
+                     String phoneNumber,
+                     String address) {
+        this.name = name;
+        this.email = email;
+        this.phoneNumber = phoneNumber;
+        this.address = address;
+    }
 }
