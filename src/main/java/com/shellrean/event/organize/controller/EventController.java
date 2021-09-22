@@ -3,8 +3,12 @@ package com.shellrean.event.organize.controller;
 import com.shellrean.event.organize.domain.dto.EventRequestData;
 import com.shellrean.event.organize.domain.dto.EventViewData;
 import com.shellrean.event.organize.domain.dto.EventViewListData;
+import com.shellrean.event.organize.domain.dto.RegisterApplicantRequestData;
+import com.shellrean.event.organize.domain.model.Applicant;
+import com.shellrean.event.organize.domain.model.Enrolment;
 import com.shellrean.event.organize.domain.model.Event;
 import com.shellrean.event.organize.domain.model.Organizer;
+import com.shellrean.event.organize.service.ApplicantService;
 import com.shellrean.event.organize.service.EventService;
 import com.shellrean.event.organize.service.OrganizerService;
 import org.modelmapper.ModelMapper;
@@ -24,12 +28,17 @@ public class EventController {
     private final EventService eventService;
     private final ModelMapper modelMapper;
     private final OrganizerService organizerService;
+    private final ApplicantService applicantService;
 
     @Autowired
-    public EventController(EventService eventService, ModelMapper modelMapper, OrganizerService organizerService) {
+    public EventController(EventService eventService,
+                           ModelMapper modelMapper,
+                           OrganizerService organizerService,
+                           ApplicantService applicantService) {
         this.eventService = eventService;
         this.modelMapper = modelMapper;
         this.organizerService = organizerService;
+        this.applicantService = applicantService;
     }
 
     @GetMapping

@@ -1,6 +1,9 @@
 package com.shellrean.event.organize.domain.model;
 
+import com.fasterxml.jackson.annotation.JsonBackReference;
+import lombok.AllArgsConstructor;
 import lombok.Data;
+import lombok.NoArgsConstructor;
 import org.springframework.data.annotation.CreatedDate;
 import org.springframework.data.annotation.LastModifiedDate;
 
@@ -12,6 +15,8 @@ import java.time.LocalDateTime;
         name = "enrolments"
 )
 @Data
+@NoArgsConstructor
+@AllArgsConstructor
 public class Enrolment {
 
     @EmbeddedId
@@ -25,6 +30,7 @@ public class Enrolment {
                     name = "enrolment_event_id_fk"
             )
     )
+    @JsonBackReference
     private Event event;
 
     @ManyToOne
@@ -35,6 +41,7 @@ public class Enrolment {
                     name = "enrolment_applicant_id_fk"
             )
     )
+    @JsonBackReference
     private Applicant applicant;
 
     @Column(
@@ -47,4 +54,9 @@ public class Enrolment {
 
     @LastModifiedDate
     private LocalDateTime updatedAt;
+
+    public Enrolment(Event event, Applicant applicant) {
+        this.event = event;
+        this.applicant = applicant;
+    }
 }

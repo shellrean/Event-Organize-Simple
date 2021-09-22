@@ -31,7 +31,8 @@ public class ExceptionHandlerAdvice {
 
     @ExceptionHandler({
             ResourceNotFoundException.class,
-            EmailTakenException.class
+            EmailTakenException.class,
+            DuplicateDataException.class
     })
     public ResponseEntity<Map<String, String>> handleResourceNotFoundExceptions(RuntimeException ex) {
 
