@@ -9,6 +9,7 @@ import com.shellrean.event.organize.service.EventService;
 import com.shellrean.event.organize.service.OrganizerService;
 import org.modelmapper.ModelMapper;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
@@ -49,7 +50,7 @@ public class EventController {
 
         EventViewData eventViewData = modelMapper.map(eventService.createNewEvent(event), EventViewData.class);
 
-        return ResponseEntity.ok(eventViewData);
+        return new ResponseEntity<>(eventViewData, HttpStatus.CREATED);
     }
 
     @GetMapping("{eventId}")

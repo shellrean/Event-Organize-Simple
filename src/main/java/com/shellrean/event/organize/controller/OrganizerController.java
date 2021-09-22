@@ -48,11 +48,11 @@ public class OrganizerController {
     }
 
     @PostMapping
-    public ResponseEntity<? extends Object> store(@RequestBody @Valid OrganizerRequestData organizerRequest) {
+    public ResponseEntity<OrganizerViewData> store(@RequestBody @Valid OrganizerRequestData organizerRequest) {
         Organizer organizer = organizerService.createNewOrganizer(modelMapper.map(organizerRequest, Organizer.class));
         OrganizerViewData organizerViewData = modelMapper.map(organizer, OrganizerViewData.class);
 
-        return new ResponseEntity<OrganizerViewData>(
+        return new ResponseEntity<>(
                 organizerViewData,
                 HttpStatus.CREATED
         );
