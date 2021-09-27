@@ -4,7 +4,6 @@ import com.shellrean.event.organize.domain.dto.OrganizerRequestData;
 import com.shellrean.event.organize.domain.dto.OrganizerViewData;
 import com.shellrean.event.organize.domain.dto.OrganizerViewListData;
 import com.shellrean.event.organize.domain.model.Organizer;
-import com.shellrean.event.organize.exception.ResourceNotFoundException;
 import com.shellrean.event.organize.service.OrganizerService;
 import org.modelmapper.ModelMapper;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -32,9 +31,7 @@ public class OrganizerController {
     public ResponseEntity<List<OrganizerViewListData>> index() {
         List<Organizer> organizers = organizerService.getAllOrganizers();
 
-        List<OrganizerViewListData> organizersResult = organizers.stream()
-                .map((organizer) -> modelMapper.map(organizer, OrganizerViewListData.class))
-                .collect(Collectors.toList());
+        List<OrganizerViewListData> organizersResult = organizers.stream().map(organizer -> modelMapper.map(organizer, OrganizerViewListData.class)).collect(Collectors.toList());
 
         return ResponseEntity.ok(organizersResult);
     }
@@ -52,10 +49,7 @@ public class OrganizerController {
         Organizer organizer = organizerService.createNewOrganizer(modelMapper.map(organizerRequest, Organizer.class));
         OrganizerViewData organizerViewData = modelMapper.map(organizer, OrganizerViewData.class);
 
-        return new ResponseEntity<>(
-                organizerViewData,
-                HttpStatus.CREATED
-        );
+        return new ResponseEntity<>(organizerViewData, HttpStatus.CREATED);
     }
 
     @DeleteMapping("{organizerId}")

@@ -61,11 +61,7 @@ public class Applicant {
     )
     private List<Enrolment> enrolments = new ArrayList<>();
 
-    public Applicant(String fullName,
-                     String email,
-                     String phoneNumber,
-                     String address,
-                     Date dob) {
+    public Applicant(String fullName, String email, String phoneNumber, String address, Date dob) {
         this.fullName = fullName;
         this.email = email;
         this.phoneNumber = phoneNumber;

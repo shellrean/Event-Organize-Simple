@@ -4,7 +4,6 @@ import com.shellrean.event.organize.domain.model.Organizer;
 import com.shellrean.event.organize.exception.EmailTakenException;
 import com.shellrean.event.organize.exception.ResourceNotFoundException;
 import com.shellrean.event.organize.repository.OrganizerRepository;
-import org.aspectj.weaver.ast.Or;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
@@ -13,7 +12,7 @@ import java.util.List;
 @Service
 public class OrganizerService {
 
-    private final static String NOT_FOUND_MSG = "organizer with id %d not found";
+    private static final String NOT_FOUND_MSG = "organizer with id %d not found";
 
     private final OrganizerRepository organizerRepository;
 
@@ -32,8 +31,7 @@ public class OrganizerService {
     }
 
     public Organizer findOrganizerById(Long organizerId) {
-        return organizerRepository.findById(organizerId)
-                .orElseThrow(() -> new ResourceNotFoundException(String.format(NOT_FOUND_MSG, organizerId)));
+        return organizerRepository.findById(organizerId).orElseThrow(() -> new ResourceNotFoundException(String.format(NOT_FOUND_MSG, organizerId)));
     }
 
     public Organizer createNewOrganizer(Organizer organizer) {

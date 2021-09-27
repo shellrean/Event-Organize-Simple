@@ -30,9 +30,7 @@ public class ApplicantController {
     @GetMapping
     public ResponseEntity<List<ApplicantViewListData>> index() {
         List<Applicant> applicants = applicantService.getAllApplicant();
-        List<ApplicantViewListData> applicantViewListData = applicants.stream()
-                .map((applicant) -> modelMapper.map(applicant, ApplicantViewListData.class))
-                .collect(Collectors.toList());
+        List<ApplicantViewListData> applicantViewListData = applicants.stream().map(applicant -> modelMapper.map(applicant, ApplicantViewListData.class)).collect(Collectors.toList());
 
         return ResponseEntity.ok(applicantViewListData);
     }
@@ -46,14 +44,9 @@ public class ApplicantController {
 
     @PostMapping
     public ResponseEntity<ApplicantViewData> store(@RequestBody ApplicantRequestData applicantRequest) {
-        Applicant applicant = applicantService.createNewApplicant(
-                modelMapper.map(applicantRequest, Applicant.class)
-        );
+        Applicant applicant = applicantService.createNewApplicant(modelMapper.map(applicantRequest, Applicant.class));
 
-        return new ResponseEntity<>(
-                modelMapper.map(applicant, ApplicantViewData.class),
-                HttpStatus.CREATED
-        );
+        return new ResponseEntity<>(modelMapper.map(applicant, ApplicantViewData.class), HttpStatus.CREATED);
     }
 
     @DeleteMapping("{applicantId}")

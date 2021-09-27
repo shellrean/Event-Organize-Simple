@@ -11,7 +11,7 @@ import java.util.List;
 @Service
 public class EventService {
 
-    private final static String NOT_FOUND_MSG = "event with id %d not found";
+    private static final String NOT_FOUND_MSG = "event with id %d not found";
 
     private final EventRepository eventRepository;
 
@@ -30,8 +30,7 @@ public class EventService {
     }
 
     public Event findEventById(Long eventId) {
-        return eventRepository.findById(eventId)
-                .orElseThrow(() -> new ResourceNotFoundException(String.format(NOT_FOUND_MSG, eventId)));
+        return eventRepository.findById(eventId).orElseThrow(() -> new ResourceNotFoundException(String.format(NOT_FOUND_MSG, eventId)));
     }
 
     public Event createNewEvent(Event event) {

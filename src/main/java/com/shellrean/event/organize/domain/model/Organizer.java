@@ -69,10 +69,7 @@ public class Organizer {
     @JsonBackReference
     private List<Event> events = new ArrayList<>();
 
-    public Organizer(String name,
-                     String email,
-                     String phoneNumber,
-                     String address) {
+    public Organizer(String name, String email, String phoneNumber, String address) {
         this.name = name;
         this.email = email;
         this.phoneNumber = phoneNumber;

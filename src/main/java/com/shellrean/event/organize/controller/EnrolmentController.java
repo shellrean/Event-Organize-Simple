@@ -36,18 +36,16 @@ public class EnrolmentController {
     }
 
     @GetMapping("event/{eventId}")
-    public  ResponseEntity<?> applicantEvent(@PathVariable("eventId") Long eventId) {
+    public  ResponseEntity<List<ApplicantViewListData>> applicantEvent(@PathVariable("eventId") Long eventId) {
         List<Enrolment> enrolments = enrolmentService.getAllAplicantOfEventId(eventId);
 
-        List<ApplicantViewListData> applicants = enrolments.stream().map(enrolment ->
-                modelMapper.map(enrolment.getApplicant(), ApplicantViewListData.class)
-        ).collect(Collectors.toList());
+        List<ApplicantViewListData> applicants = enrolments.stream().map(enrolment -> modelMapper.map(enrolment.getApplicant(), ApplicantViewListData.class)).collect(Collectors.toList());
 
         return ResponseEntity.ok(applicants);
     }
 
     @PostMapping
-    public ResponseEntity<?> registerApplicant(@RequestBody RegisterApplicantRequestData requestData) {
+    public ResponseEntity<EnrolmentViewData> registerApplicant(@RequestBody RegisterApplicantRequestData requestData) {
         Event event = eventService.findEventById(requestData.getEventId());
         Applicant applicant = applicantService.getApplicantById(requestData.getApplicantId());
 

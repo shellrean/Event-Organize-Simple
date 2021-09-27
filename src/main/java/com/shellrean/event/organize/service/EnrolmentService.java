@@ -6,7 +6,6 @@ import com.shellrean.event.organize.domain.model.EnrolmentEmbed;
 import com.shellrean.event.organize.domain.model.Event;
 import com.shellrean.event.organize.exception.DuplicateDataException;
 import com.shellrean.event.organize.exception.ResourceNotFoundException;
-import com.shellrean.event.organize.repository.ApplicantRepository;
 import com.shellrean.event.organize.repository.EnrolmentRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;

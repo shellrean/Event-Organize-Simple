@@ -80,13 +80,7 @@ public class Event {
     )
     private List<Enrolment> enrolments = new ArrayList<>();
 
-    public Event(String title,
-                 String body,
-                 String location,
-                 String speaker,
-                 Integer seatTotal,
-                 Date eventDate,
-                 Organizer organizer) {
+    public Event(String title, String body, String location, String speaker, Integer seatTotal, Date eventDate, Organizer organizer) {
         this.title = title;
         this.body = body;
         this.location = location;

@@ -12,7 +12,7 @@ import java.util.List;
 @Service
 public class ApplicantService {
 
-    private final static String NOT_FOUND_MSG = "applicant with id %d not found";
+    private static final String NOT_FOUND_MSG = "applicant with id %d not found";
 
     private final ApplicantRepository applicantRepository;
 
@@ -40,8 +40,7 @@ public class ApplicantService {
     }
 
     public Applicant getApplicantById(Long applicantId) {
-        return applicantRepository.findById(applicantId)
-                .orElseThrow(() -> new ResourceNotFoundException(String.format(NOT_FOUND_MSG, applicantId)));
+        return applicantRepository.findById(applicantId).orElseThrow(() -> new ResourceNotFoundException(String.format(NOT_FOUND_MSG, applicantId)));
     }
 
     public void deleteApplicantById(Long applicantId) {
